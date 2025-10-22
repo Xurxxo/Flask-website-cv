@@ -1,0 +1,83 @@
+<!-- Work experience details -->
+{% extends "base.html" %}
+{% block title %}ls ~/workhistory{% endblock %}
+{% block content %}
+<div class="terminal page-terminal">
+    <div class="terminal-header">
+        <div class="button red"></div>
+        <div class="button yellow"></div>
+        <div class="button green"></div>
+    </div>
+    <div class="terminal-body">
+        <div id="terminal-animation">
+            <!-- Terminal animation will be inserted here by JavaScript -->
+        </div>
+        
+        <!-- Content appears after animation -->
+        <div id="content-container" style="display: none;">
+            <pre class="work-content">
+╔════════════════════════════════════════════════════════════╗
+║                    WORK HISTORY                         
+╚════════════════════════════════════════════════════════════╝
+
+[Latest position]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Position:   Payment Operation Analyst
+Company:    Salaris/Solarisbank AG (FinTech)
+Location:   Berlin
+Period:     Dec 2021 - Dec 2024
+
+Responsibilities:
+• Cloud-Based Data Analysis and Reporting. 
+• Process Automation and Efficiency Projects
+• Critical System Management and Interbank Communication. (SEPA, Target2, SWIFT, B2B Direct Debits)
+• Lead infrastructure migration projects
+
+Technologies:
+Jira, Confluence, AWS, Athena, Slack, Zendesk 
+
+
+
+[PREVIOUS POSITION]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Position:   Technical Treasury Services Advisor for Corporate Banking / API Support Specialist
+Company:    Deutsche Bank AG
+Location:   Dublin, Ireland
+Period:     Sep 2016 - Dec 2021
+
+Responsibilities:
+• Client Onboarding
+• FX cash products, spot and forward
+• Balance reporting BAI, XML, MT940, MT202
+• Payment advisor for ACH, Checks, SEPA, files, and T2
+
+Technologies:
+Authobhan, WebEx, ServiceNow, 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+[INTERNSHIP / ENTRY LEVEL]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Position:   Account Representative in Retail Banking for cards and digital wallets
+Company:    Prepaid Financial Services (FinTech)
+Location:   Navan, Ireland
+Period:     2015 - 2016
+
+Responsibilities:
+• B2B System Integration and Stakeholder Liaison
+• Mass Transactional Data Flow Management
+• Risk System Analysis and Fraud Mitigation
+• Regulatory Compliance and Data Integrity Review (KYC)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TODO: Update this with your actual work history
+            </pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/unzip.js') }}"></script>
+{% endblock %}
