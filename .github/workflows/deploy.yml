@@ -1,0 +1,62 @@
+name: Deploy Flask CV to AWS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: eu-central-1
+  ECR_REPOSITORY: flask-terminal-cv
+  ECR_REGISTRY: 503561417727.dkr.ecr.eu-central-1.amazonaws.com
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Build Docker image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      
+      - name: Push image to ECR
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@$EC2_HOST << 'ENDSSH'
+            aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 503561417727.dkr.ecr.eu-central-1.amazonaws.com
+            docker stop flask-cv-app || true
+            docker rm flask-cv-app || true
+            docker pull 503561417727.dkr.ecr.eu-central-1.amazonaws.com/flask-terminal-cv:latest
+            docker run -d --name flask-cv-app --restart unless-stopped -p 80:8000 503561417727.dkr.ecr.eu-central-1.amazonaws.com/flask-terminal-cv:latest
+            echo "Deployment completed"
+          ENDSSH
+          
+          rm private_key.pem
