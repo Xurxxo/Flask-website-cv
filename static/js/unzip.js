@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         const loadingInterval = setInterval(() => {
             // Update progress (faster increments for smoother animation)
-            progress += Math.random() * 12 + 8; // Random between 4-12% per tick
+            progress += Math.random() * 19 + 18; // Random between 4-12% per tick
             if (progress > maxProgress) progress = maxProgress;
             
             // Create progress bar with # symbols
