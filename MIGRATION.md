@@ -1,21 +1,24 @@
-# Migration to Static Site
+# Migration to Static Site Hosting
 
 ## Decision
-Migrating from serverless Lambda to S3 static hosting for better cost-efficiency and performance.
+Converting Flask application to static site hosted on AWS S3 + CloudFront.
 
 ## Rationale
-- CV website is purely presentational (no dynamic backend needed)
-- S3 + CloudFront provides better performance at lower cost
-- Lambda charged per request is expensive for static assets
-- Static site allows for faster page loads via CDN
+- CV website presentational (no dynamic backend needed)
+- S3 + CloudFront provides excellent performance at minimal cost
+- Static sites load faster via CDN caching
+- Simplifies deployment and maintenance
 
-## Architecture Change
-**Before:** API Gateway → Lambda (Flask)
-**After:** CloudFront → S3 (Static HTML/CSS/JS)
+## Architecture
+**CloudFront (CDN)** → **S3 Bucket (Static HTML/CSS/JS)**
 
-## Cost Comparison
-- Lambda: ~$5-10/month
-- S3 + CloudFront: ~$0.50/month
+## Benefits
+- **Cost**: ~$0.50/month (vs EC2 ~$8-12/month)
+- **Performance**: Global CDN edge locations
+- **Security**: HTTPS, DDoS protection, security headers
+- **Scalability**: Handles traffic spikes automatically
+- **Reliability**: 99.99% uptime SLA
 
 ## Implementation
-Flask templates will be pre-rendered to static HTML during CI/CD pipeline.
+Flask templates will be pre-rendered to static HTML during CI/CD pipeline using GitHub Actions.
+EOF
