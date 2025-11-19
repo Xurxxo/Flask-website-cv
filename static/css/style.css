@@ -121,9 +121,15 @@ body {
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid rgba(148, 163, 184, 0.6);
+    border: 2px solid var(--accent); 
     margin-bottom: 16px;
 }
+
+.whoami-content {
+    overflow-x: hidden;
+    white-space: pre-wrap; 
+}
+
 
 .profile-photo img {
     width: 100%;
@@ -142,6 +148,17 @@ body {
     margin-bottom: 20px;
     line-height: 1.6;
 }
+
+h1 {
+    color: #ff9900 !important;
+    text-shadow: 0 0 6px rgba(255, 153, 0, 0.25) !important;
+    font-weight: 600 !important;
+}
+
+.section-title i {
+    color: #ff9900 !important;
+}
+
 
 .social-links {
     display: flex;
@@ -308,10 +325,27 @@ body {
     color: #a5b4fc;                /* soft violet for section command */
 }
 
-.whoami-content h4::before {
-    content: "$ ";
-    color: #fbbf24;                /* yellow for prompt sign */
+.whoami-content h4 {
+    margin: 0 !important;
+    padding: 0 !important;
 }
+
+.whoami-content p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.whoami-content h4,
+.whoami-content p {
+    margin: 0;
+    padding: 0;
+}
+
+/* si quieres que el texto no quede ultra pegado verticalmente */
+.whoami-content {
+    line-height: 1.2;
+}
+
 
 /* Paragraph text below whoami headings */
 .whoami-content p {
